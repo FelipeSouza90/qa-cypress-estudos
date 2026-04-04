@@ -1,7 +1,16 @@
 describe('meu primeiro teste no Cypress', () => {
-  it('deve adicionar uma nova tarefa', () => {
+  it('deve filtrar apenas tarefas concluídas', () => {
     cy.visit('https://example.cypress.io/todo')
-    cy.get('[data-test=new-todo]').type('Estudar Cypress{enter}')
-    cy.get('.todo-list li').should('have.length', 3)
+
+    cy.contains('Pay electric bill')
+      .parent()
+      .find('input[type=checkbox]')
+      .check()
+
+    cy.contains('Completed').click()
+
+    cy.get('.todo-list li').should('have.length', 1)
+    cy.contains('Walk the dog').should('not.exist')
   })
 })
+
